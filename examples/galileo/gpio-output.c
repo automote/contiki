@@ -33,10 +33,9 @@
 #include "contiki.h"
 #include "sys/ctimer.h"
 
-#include "galileo-gpio.h"
 #include "gpio.h"
 
-#define PIN 2
+#define PIN 5 /* IO2 */
 
 static uint32_t value;
 static struct ctimer timer;
@@ -49,7 +48,7 @@ timeout(void *data)
 {
   /* toggle pin state */
   value = !value;
-  galileo_gpio_write(PIN, value);
+  quarkX1000_gpio_write(PIN, value);
 
   ctimer_reset(&timer);
 }
@@ -57,6 +56,8 @@ timeout(void *data)
 PROCESS_THREAD(gpio_output_process, ev, data)
 {
   PROCESS_BEGIN();
+
+  quarkX1000_gpio_config(PIN, QUARKX1000_GPIO_OUT);
 
   quarkX1000_gpio_clock_enable();
 

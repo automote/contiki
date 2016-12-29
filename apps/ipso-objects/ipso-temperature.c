@@ -96,6 +96,7 @@ LWM2M_OBJECT(temperature, 3303, temperature_instances);
 static int
 read_temp(int32_t *value)
 {
+	printf("Enter into the read_temp function of app..\n");
 #ifdef IPSO_TEMPERATURE
   int32_t temp;
   if(IPSO_TEMPERATURE.read_value == NULL ||
@@ -105,7 +106,7 @@ read_temp(int32_t *value)
 
   /* Convert milliCelsius to fix float */
   *value = (temp * LWM2M_FLOAT32_FRAC) / 1000;
-
+printf("Leaving from the read_temp function of app..\n");
   if(*value < min_temp) {
     min_temp = *value;
     lwm2m_object_notify_observers(&temperature, "/0/5601");
@@ -114,6 +115,7 @@ read_temp(int32_t *value)
     max_temp = *value;
     lwm2m_object_notify_observers(&temperature, "/0/5602");
   }
+
   return 1;
 #else /* IPSO_TEMPERATURE */
   return 0;
@@ -123,6 +125,7 @@ read_temp(int32_t *value)
 static void
 handle_periodic_timer(void *ptr)
 {
+printf("Enter into the handle periodic function of app..\n");
   static int32_t last_value = IPSO_TEMPERATURE_MIN;
   int32_t v;
 
@@ -132,6 +135,7 @@ handle_periodic_timer(void *ptr)
     lwm2m_object_notify_observers(&temperature, "/0/5700");
   }
   ctimer_reset(&periodic_timer);
+printf("leaving from the handle periodic function of app..\n");
 }
 /*---------------------------------------------------------------------------*/
 void
@@ -140,6 +144,7 @@ ipso_temperature_init(void)
   int32_t v;
   min_temp = IPSO_TEMPERATURE_MAX;
   max_temp = IPSO_TEMPERATURE_MIN;
+printf("Enter into the init function of app..\n");
 
 #ifdef IPSO_TEMPERATURE
   if(IPSO_TEMPERATURE.init) {
@@ -154,6 +159,7 @@ ipso_temperature_init(void)
   /* update temp and min/max + notify any listeners */
   read_temp(&v);
   ctimer_set(&periodic_timer, CLOCK_SECOND * 10, handle_periodic_timer, NULL);
+printf("Enter into the init function of app..\n");
 }
 /*---------------------------------------------------------------------------*/
 /** @} */

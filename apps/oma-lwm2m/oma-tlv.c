@@ -46,7 +46,7 @@
 #include <stdint.h>
 #include "oma-tlv.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -126,6 +126,7 @@ oma_tlv_write(const oma_tlv_t *tlv, uint8_t *buffer, size_t len)
   /* len type is the same as number of bytes required for length */
   len_type = get_len_type(tlv);
   pos = 1 + len_type;
+	printf("in oma tlv write pos=%d len=%d\n",pos,len);
   /* ensure that we do not write too much */
   if(len < tlv->length + pos) {
     PRINTF("OMA-TLV: Could not write the TLV - buffer overflow.\n");
@@ -185,6 +186,7 @@ oma_tlv_get_int32(const oma_tlv_t *tlv)
 size_t
 oma_tlv_write_int32(int16_t id, int32_t value, uint8_t *buffer, size_t len)
 {
+	
   oma_tlv_t tlv;
   size_t tlvlen = 0;
   uint8_t buf[4];
@@ -213,12 +215,14 @@ size_t
 oma_tlv_write_float32(int16_t id, int32_t value, int bits,
                       uint8_t *buffer, size_t len)
 {
+	
   int i;
   int e = 0;
   int32_t val = 0;
   int32_t v;
   uint8_t b[4];
   oma_tlv_t tlv;
+	printf("Enter into the oma_tlv_write_float_32 function...value=%d\n",value);
 
   v = value;
   if(v < 0) {
@@ -248,6 +252,12 @@ oma_tlv_write_float32(int16_t id, int32_t value, int bits,
   b[1] = ((e & 1) << 7) | ((val >> 16) & 0x7f);
   b[2] = (val >> 8) & 0xff;
   b[3] = val & 0xff;
+	/*b[0]=9;
+	b[1]=6;
+	b[2]=0;
+	b[3]=0;*/
+	for(i=0;i<4;i++)
+		printf("b[%d]= %d val=%d\n",i,b[i],val);
 
   /* construct the TLV */
   tlv.type = OMA_TLV_TYPE_RESOURCE;

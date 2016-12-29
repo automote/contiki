@@ -69,7 +69,7 @@
 #include <string.h> /* for memcpy() */
 #include <stdio.h> /* for printf() */
 
-#define DEBUG 0
+#define DEBUG 1
 
 #if DEBUG
 #undef PRINTF
@@ -254,6 +254,8 @@ ip64_set_ipv4_address(const uip_ip4addr_t *addr, const uip_ip4addr_t *netmask)
 	 ip64_hostaddr.u8[2], ip64_hostaddr.u8[3],
 	 ip64_netmask.u8[0], ip64_netmask.u8[1],
 	 ip64_netmask.u8[2], ip64_netmask.u8[3]);
+	printf("...................................\n");
+//	uip_debug_ipadd_print(addr);
 }
 /*---------------------------------------------------------------------------*/
 void
@@ -264,6 +266,7 @@ ip64_set_ipv6_address(const uip_ip6addr_t *addr)
 #if DEBUG
   PRINTF("ip64_set_ipv6_address: configuring address ");
   uip_debug_ipaddr_print(addr);
+	
   PRINTF("\n");
 #endif /* DEBUG */
 }

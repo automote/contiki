@@ -57,7 +57,7 @@
  * - 2: Print errors + warnings (recoverable errors)
  * - 3: Print errors + warnings + information (what's going on...)
  */
-#define DEBUG_LEVEL                     2
+#define DEBUG_LEVEL                     3///changes 3 from 2 by Amar
 /*
  * RF test mode. Blocks inside "configure()".
  * - Set this parameter to 1 in order to produce an modulated carrier (PN9)
@@ -203,7 +203,7 @@ extern const cc1200_rf_cfg_t CC1200_RF_CFG;
 #define STATE_TX                        CC1200_MARC_STATE_TX
 #define STATE_RX_FIFO_ERROR             CC1200_MARC_STATE_RX_FIFO_ERR
 #define STATE_TX_FIFO_ERROR             CC1200_MARC_STATE_TX_FIFO_ERR
-#else
+#else/////////////by Amar
 /* We use the status byte read out using a NOP strobe */
 #define STATE_IDLE                      CC1200_STATUS_BYTE_IDLE
 #define STATE_RX                        CC1200_STATUS_BYTE_RX

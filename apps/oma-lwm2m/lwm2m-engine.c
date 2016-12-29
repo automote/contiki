@@ -404,8 +404,8 @@ lwm2m_engine_init(void)
 
   len = strlen(LWM2M_ENGINE_CLIENT_ENDPOINT_PREFIX);
   /* ensure that this fits with the hex-nums */
-  if(len > sizeof(client) - 13) {
-    len = sizeof(client) - 13;
+  if(len > sizeof(client) - 18) {
+    len = sizeof(client) - 18;
   }
   memcpy(client, LWM2M_ENGINE_CLIENT_ENDPOINT_PREFIX, len);
 
@@ -421,18 +421,20 @@ lwm2m_engine_init(void)
   }
 
   if(ipaddr != NULL) {
-    for(i = 0; i < 6; i++) {
+for(i = 0; i < 6; i++) {
       /* assume IPv6 for now */
       uint8_t b = ipaddr->u8[10 + i];
-      client[len++] = (b >> 4) > 9 ? 'A' - 10 + (b >> 4) : '0' + (b >> 4);
-      client[len++] = (b & 0xf) > 9 ? 'A' - 10 + (b & 0xf) : '0' + (b & 0xf);
+        client[len++] = (b >> 4) > 9 ? 'A' - 10 + (b >> 4) : '0' + (b >> 4);
+	client[len++] = (b & 0xf) > 9 ? 'A' - 10 + (b & 0xf) : '0' + (b & 0xf);
+	
+	//snprintf(len,2,"len=%d\n",len);
     }
   }
 
   /* a zero at end of string */
   client[len] = 0;
   /* create endpoint */
-  snprintf(endpoint, sizeof(endpoint) - 1, "?ep=%s", client);
+  snprintf(endpoint, sizeof(endpoint)-1 , "?ep=%s", client);
 
 #endif /* LWM2M_ENGINE_CLIENT_ENDPOINT_NAME */
 
@@ -585,40 +587,6 @@ get_resource(const lwm2m_instance_t *instance, lwm2m_context_t *context)
     }
   }
   return NULL;
-}
-/*---------------------------------------------------------------------------*/
-/**
- * @brief Write a list of object instances as a CoRE Link-format list
- */
-static int
-write_object_instances_link(const lwm2m_object_t *object,
-                            char *buffer, size_t size)
-{
-  const lwm2m_instance_t *instance;
-  int len, rdlen, i;
-
-  PRINTF("</%d>", object->id);
-  rdlen = snprintf(buffer, size, "</%d>",
-                   object->id);
-  if(rdlen < 0 || rdlen >= size) {
-    return -1;
-  }
-
-  for(i = 0; i < object->count; i++) {
-    if((object->instances[i].flag & LWM2M_INSTANCE_FLAG_USED) == 0) {
-      continue;
-    }
-    instance = &object->instances[i];
-    PRINTF(",</%d/%d>", object->id, instance->id);
-
-    len = snprintf(&buffer[rdlen], size - rdlen,
-                   ",<%d/%d>", object->id, instance->id);
-    rdlen += len;
-    if(len < 0 || rdlen >= size) {
-      return -1;
-    }
-  }
-  return rdlen;
 }
 /*---------------------------------------------------------------------------*/
 static int
@@ -1085,23 +1053,6 @@ lwm2m_engine_handler(const lwm2m_object_t *object,
       } else {
         REST.set_header_content_type(response, LWM2M_JSON);
       }
-    }
-  } else if(depth == 1) {
-    /* produce a list of instances */
-    if(method != METHOD_GET) {
-      REST.set_response_status(response, METHOD_NOT_ALLOWED_4_05);
-    } else {
-      int rdlen;
-      PRINTF("Sending instance list for object %u\n", object->id);
-      /* TODO: if(accept == APPLICATION_LINK_FORMAT) { */
-      rdlen = write_object_instances_link(object, (char *)buffer, preferred_size);
-      if(rdlen < 0) {
-        PRINTF("Failed to generate object response\n");
-        REST.set_response_status(response, SERVICE_UNAVAILABLE_5_03);
-        return;
-      }
-      REST.set_header_content_type(response, REST.type.APPLICATION_LINK_FORMAT);
-      REST.set_response_payload(response, buffer, rdlen);
     }
   }
 }

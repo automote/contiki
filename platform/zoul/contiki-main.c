@@ -70,6 +70,9 @@
 #include "reg.h"
 #include "ieee-addr.h"
 #include "lpm.h"
+#include "antenna-sw.h"
+//#include "dev/cc1200-rf.h"
+
 
 #include <stdint.h>
 #include <string.h>
@@ -89,6 +92,7 @@
 /*---------------------------------------------------------------------------*/
 /** \brief Board specific iniatialisation */
 void board_init(void);
+//void antenna_sw_config(void);
 /*---------------------------------------------------------------------------*/
 static void
 fade(unsigned char l)
@@ -138,6 +142,8 @@ set_rf_params(void)
   NETSTACK_RADIO.set_value(RADIO_PARAM_16BIT_ADDR, short_addr);
   NETSTACK_RADIO.set_value(RADIO_PARAM_CHANNEL, CC2538_RF_CHANNEL);
   NETSTACK_RADIO.set_object(RADIO_PARAM_64BIT_ADDR, ext_addr, 8);
+	antenna_sw_config();
+	antenna_sw_select(ANTENNA_SW_SELECT_DEFAULT);
 }
 /*---------------------------------------------------------------------------*/
 /**

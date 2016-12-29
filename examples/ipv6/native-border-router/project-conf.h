@@ -57,4 +57,9 @@
 /* used by wpcap (see /cpu/native/net/wpcap-drv.c) */
 #define SELECT_CALLBACK 1
 
+/* Use this for setting Border Router with cc26xx-cc13xx */
+#ifndef PLATFORM_HAS_CC13xx
+#define PLATFORM_HAS_CC13xx	
+#endif
+
 #endif /* PROJECT_ROUTER_CONF_H_ */

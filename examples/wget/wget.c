@@ -35,10 +35,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef __CC65__
-#include <cc65.h>
-#endif /* __CC65__ */
-
 #include "contiki-net.h"
 #include "webclient.h"
 #include "cfs/cfs.h"
@@ -150,12 +146,8 @@ app_quit(void)
   if(file != -1) {
     cfs_close(file);
   }
-#ifdef __CC65__
-  if(doesclrscrafterexit()) {
-    puts("Press <enter> to continue...");
-    getchar();
-  }
-#endif /* __CC65__ */
+  puts("Press <enter> to continue...");
+  getchar();
   process_exit(&wget_process);
   LOADER_UNLOAD();
 }

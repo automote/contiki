@@ -40,7 +40,36 @@
 #define PLATFORM_REBOOT watchdog_reboot
 #endif
 
+
+
 #define IPSO_TEMPERATURE example_ipso_temperature
+#define IPSO_ILLUMINANCE example_ipso_illuminance
+#define IPSO_3202 	 example_ipso_analog_input
+
+/******************	by thing tronics ****************************/
+#define IPSO_3201 	 example-ipso-ldr-input 	 
+#define IPSO_LIGHT_CONTROL example_ipso_light_control
+#define IPSO_RELAY_CONTROL example_ipso_relay_control
+/****************************************************************/
+/*======================================================*/
+//#ifndef PROJECT_CONF_H_
+//#define PROJECT_CONF_H_
+
+/*#undef  NETSTACK_CONF_RADIO
+#define NETSTACK_CONF_RADIO         cc1200_driver
+#define NETSTACK_CONF_RDC           nullrdc_driver
+#define CC1200_CONF_USE_GPIO2       0
+#define CC1200_CONF_USE_RX_WATCHDOG 0
+#define ANTENNA_SW_SELECT_DEF_CONF  ANTENNA_SW_SELECT_SUBGHZ
+*/
+//#endif /* PROJECT_CONF_H_ */
+
+
+/*================================================*/
+
+/* Change to match your configuration */
+#define IEEE802154_CONF_PANID            0xABCD
+#define RF_CORE_CONF_CHANNEL                 25
 
 /**
  * Disabling RDC and CSMA to save memory on constrained devices.
@@ -57,7 +86,8 @@
 
 /* Increase rpl-border-router IP-buffer when using more than 64. */
 #undef REST_MAX_CHUNK_SIZE
-#define REST_MAX_CHUNK_SIZE            64
+//#define REST_MAX_CHUNK_SIZE            64
+#define REST_MAX_CHUNK_SIZE            256
 
 /* Multiplies with chunk size, be aware of memory constraints. */
 #undef COAP_MAX_OPEN_TRANSACTIONS
