@@ -1,5 +1,9 @@
-ipso-objects_src = ipso-objects.c\
-			 ipso-ldr.c ipso-relay-control.c
+ipso-objects_src = ipso-objects.c ipso-actuation-control-3306.c 
+
+
+#ipso-objects_src =   ipso-objects.c ipso-socket-control-3312.c  ipso-light-control-3311.c ipso-actuation-control-3306.c \
+#			ipso-temperature.c ipso-hum.c ipso-illuminance.c ipso-Connectivity.c ipso-Connectivity_Statistics.c
+
 CFLAGS += -DWITH_IPSO=1
 
 

@@ -128,6 +128,7 @@ update_nbr(void)
     parent = rpl_get_parent((uip_lladdr_t *)lladdr);
     if(parent != NULL) {
       num_parents++;
+		
 
       if(parent->dag != NULL && parent->dag->preferred_parent == parent) {
         /*

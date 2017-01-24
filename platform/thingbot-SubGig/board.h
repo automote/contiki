@@ -154,6 +154,21 @@
  */
 #define BOARD_IOID_SDA            IOID_5 /**< Interface 0 SDA: All sensors bar MPU */
 #define BOARD_IOID_SCL            IOID_4 /**< Interface 0 SCL: All sensors bar MPU */
+
+
+/*---------------------------------------------------------------------------------*/
+/*
+	\By thingtronics
+	PSoC int pin
+*/
+#define BOARD_IOID_PSOC_INT     IOID_10	
+
+//#define BOARD_IOID_SDA_HP         IOID_8 /**< Interface 1 SDA: MPU */
+//#define BOARD_IOID_SCL_HP         IOID_9 /**< Interface 1 SCL: MPU */
+
+/*-------------------------------------------------------------------------------*/
+
+
 /*-------------------------------------------------------------------------------*/
 /**
  * \name SPI IOID mapping

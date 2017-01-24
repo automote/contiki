@@ -42,7 +42,7 @@
 #include <string.h>
 #include "er-coap-engine.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -53,7 +53,8 @@
 #define PRINT6ADDR(addr)
 #define PRINTLLADDR(addr)
 #endif
-
+extern char client_reg_id[15];
+//extern static coap_packet_t message_reg;
 PROCESS(coap_engine, "CoAP Engine");
 
 /*---------------------------------------------------------------------------*/
@@ -90,12 +91,14 @@ coap_receive(void)
     if(erbium_status_code == NO_ERROR) {
 
       /*TODO duplicates suppression, if required by application */
-
+//	message_reg=message;
       PRINTF("  Parsed: v %u, t %u, tkl %u, c %u, mid %u\n", message->version,
              message->type, message->token_len, message->code, message->mid);
-      PRINTF("  URL: %.*s\n", message->uri_path_len, message->uri_path);
+      PRINTF("  LOCATION1: %.*s\n", message->location_path_len, message->location_path);
       PRINTF("  Payload: %.*s\n", message->payload_len, message->payload);
-
+//	PRINTF(" len =%d \n",message->location_path_len);
+	snprintf(client_reg_id,sizeof(client_reg_id)," %.*s\n", message->location_path_len, message->location_path);
+	PRINTF(" str =%s \n",client_reg_id);
       /* handle requests */
       if(message->code >= COAP_GET && message->code <= COAP_DELETE) {
 

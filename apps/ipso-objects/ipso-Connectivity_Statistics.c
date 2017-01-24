@@ -38,84 +38,84 @@
  * \file
  *         Implementation of OMA LWM2M / IPSO Light Control
  * \author
- *         Joakim Eriksson <joakime@sics.se>
- *         Niclas Finne <nfi@sics.se>
+ *         Amar Garg<amar.garg@thingtronics.com>
  */
 
 #include "ipso-objects.h"
 #include "lwm2m-object.h"
 #include "lwm2m-engine.h"
 
-#ifdef IPSO_RELAY_CONTROL
-extern const struct ipso_objects_rly_actuator IPSO_RELAY_CONTROL;
-#endif /* IPSO_RELAY_CONTROL */
-/*---------------------------------------------------------------------------*/
-//static unsigned long last_on_time;
-//static uint32_t total_on_time;
-//static int dim_level = 0;
-static uint8_t is_on = 0;
-/*---------------------------------------------------------------------------*/
-static int
-read_state(lwm2m_context_t *ctx, uint8_t *outbuf, size_t outsize)
-{
-  return ctx->writer->write_boolean(ctx, outbuf, outsize, is_on ? 1 : 0);
-}
-/*---------------------------------------------------------------------------*/
-static int
-write_state(lwm2m_context_t *ctx, const uint8_t *inbuf, size_t insize,
-            uint8_t *outbuf, size_t outsize)
-{
-  int value;
-  size_t len;
 
-  len = ctx->reader->read_boolean(ctx, inbuf, insize, &value);
-  if(len > 0) {
-    if(value) {
-    	
-      if(!is_on) {
-        is_on = 1;
-        IPSO_RELAY_CONTROL.set_on(value);
-      }
-    } else {
-    
-      if(is_on) {
-        is_on = 0;
-        IPSO_RELAY_CONTROL.set_on(value);
-        
-      }
-    }
-  }
-  return len;
+extern int tx_Data;
+ extern int rx_Data;
+ 
+/*---------------------------------------------------------------------------*/
+static int 
+tx_data(lwm2m_context_t *ctx, uint8_t *outbuf ,size_t outsize)
+{
+	
+	tx_Data++;	
+	return ctx->writer->write_int(ctx, outbuf, outsize,tx_Data);
 }
 /*---------------------------------------------------------------------------*/
-LWM2M_RESOURCES(relay_control_resources,
-                LWM2M_RESOURCE_CALLBACK(5850, { read_state, write_state, NULL }),
-               // LWM2M_RESOURCE_CALLBACK(5851, { read_dim, write_dim, NULL }),
-               // LWM2M_RESOURCE_CALLBACK(5852, { read_on_time, write_on_time, NULL }),
+static int
+rx_data(lwm2m_context_t *ctx, uint8_t *outbuf ,size_t outsize)
+{
+	rx_Data++;
+       
+	return ctx->writer->write_int(ctx, outbuf, outsize,rx_Data);
+
+}
+/*--------------------------------------------------------------------------*/
+static int 
+max_msg_size(lwm2m_context_t *ctx, uint8_t *outbuf ,size_t outsize)
+{
+	uint16_t max_size=127;
+
+
+	return ctx->writer->write_int(ctx, outbuf, outsize,max_size);
+}
+/*--------------------------------------------------------------------------*/
+static int 
+avg_msg_size(lwm2m_context_t *ctx, uint8_t *outbuf ,size_t outsize)
+{
+	uint16_t avg_size=50;
+
+
+
+
+	return ctx->writer->write_int(ctx,outbuf,outsize,avg_size);
+}
+/*---------------------------------------------------------------------------*/
+static int
+start_reset(lwm2m_context_t *ctx, uint8_t *outbuf ,size_t outsize)
+{
+		
+
+
+
+
+	//return ctx->writer->write_string(ctx, outbuf,outsize,router_ip_address,13);
+}
+/*---------------------------------------------------------------------------*/
+
+LWM2M_RESOURCES(connectivity_statistics_resources,
+                LWM2M_RESOURCE_CALLBACK(2, { tx_data, NULL, NULL }),
+                LWM2M_RESOURCE_CALLBACK(3, { rx_data, NULL, NULL }),
+                LWM2M_RESOURCE_CALLBACK(4, { max_msg_size, NULL, NULL }),
+		LWM2M_RESOURCE_CALLBACK(5, { avg_msg_size,NULL,NULL}),
+		LWM2M_RESOURCE_CALLBACK(6, { NULL,NULL,start_reset}),
                 );
-LWM2M_INSTANCES(relay_control_instances,
-		LWM2M_INSTANCE(0, relay_control_resources));
-LWM2M_OBJECT(relay_control, 3312, relay_control_instances);
+LWM2M_INSTANCES(connectivity_statistics_instances,
+		LWM2M_INSTANCE(0, connectivity_statistics_resources));
+LWM2M_OBJECT(connectivity_statistics, 7, connectivity_statistics_instances);
 /*---------------------------------------------------------------------------*/
 void
-ipso_relay_control_init(void)
+ipso_connectivity_statistics_init(void)
 {
-#ifdef IPSO_RELAY_CONTROL
-  if(IPSO_RELAY_CONTROL.init) {
-    IPSO_RELAY_CONTROL.init();
-  }
-  if(IPSO_RELAY_CONTROL.is_on) {
-    is_on = IPSO_RELAY_CONTROL.is_on();
-  }
-  if(IPSO_RELAY_CONTROL.get_dim_level) {
-    //dim_level = IPSO_RELAY_CONTROL.get_dim_level();
-    //if(dim_level > 0 && IPSO_RELAY_CONTROL.is_on == NULL) {
-    // is_on = 1;
-    //}
-  }
-#endif /* IPSO_RELAY_CONTROL */
+
  
-  lwm2m_engine_register_object(&relay_control);
+  lwm2m_engine_register_object(&connectivity_statistics);
 }
 /*---------------------------------------------------------------------------*/
 /** @} */

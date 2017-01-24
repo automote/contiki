@@ -47,7 +47,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #define PRINTF(...) printf(__VA_ARGS__)
 #else
@@ -190,6 +190,7 @@ write_string(const lwm2m_context_t *ctx, uint8_t *outbuf, size_t outlen,
              const char *value, size_t stringlen)
 {
   int n = snprintf((char *)outbuf, outlen, "%.*s", (int) stringlen, value);
+	printf("Enter into the write string function..\n");
   if(n < 0 || n >= outlen) {
     return 0;
   }

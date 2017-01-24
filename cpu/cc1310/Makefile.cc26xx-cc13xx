@@ -8,7 +8,7 @@ NM      = arm-none-eabi-nm
 SIZE    = arm-none-eabi-size
 SREC_CAT = srec_cat
 
-CPU_ABS_PATH       = cpu/cc26xx-cc13xx
+CPU_ABS_PATH       = cpu/cc1310
 TI_XXWARE = $(CONTIKI_CPU)/$(TI_XXWARE_PATH)
 
 ### cc26xxware sources under driverlib will be added to the MODULES list

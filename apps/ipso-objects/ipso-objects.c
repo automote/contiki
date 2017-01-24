@@ -44,6 +44,8 @@
 #include "contiki.h"
 #include "ipso-objects.h"
 /*---------------------------------------------------------------------------*/
+ int tx_Data;
+ int rx_Data;
 void
 ipso_objects_init(void)
 {
@@ -58,13 +60,13 @@ printf("Enter into the ipso objects init function..\n");
 #endif
 
 #ifdef IPSO_LIGHT_CONTROL
-	// ipso_light_control_init();
+//	 ipso_light_control_init();
 #elif PLATFORM_HAS_LEDS
    //ipso_leds_control_init();
 #endif
 
 #ifdef IPSO_3311
-	//ipso_light_control_init();
+//	ipso_light_control_init();
 #endif
 
 #ifdef IPSO_3202
@@ -72,19 +74,27 @@ printf("Enter into the ipso objects init function..\n");
 #endif
 
 #ifdef IPSO_ILLUMINANCE
-//  ipso_illuminance_init();
+  //ipso_illuminance_init();
 #endif
 
-#ifdef IPSO_HUMIDITY
+//#ifdef IPSO_HUMIDITY
  // ipso_humidity_init();
-#endif
+//#endif
 
 #ifdef IPSO_3202
-	ipso_ldr_init();
+//	ipso_ldr_init();
 #endif
 #ifdef IPSO_LIGHT_CONTROL
-	ipso_relay_control_init();
+//	ipso_relay_control_init();
 #endif
+//#ifdef IPSO_light_control
+//	ipso_psoc_switch_control_init();
+//#endif
+ipso_actuation_switch_control_init();
+//ipso_socket_switch_control_init();
+//ipso_connectivity_init();
+//ipso_connectivity_statistics_init();
+
 printf("Leaving from the ipso objects init function..\n");
 }
 /*---------------------------------------------------------------------------*/
