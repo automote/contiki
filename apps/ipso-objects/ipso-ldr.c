@@ -79,12 +79,26 @@ printf("Enter into the ipso object-->ldr_input\n");
 //printf("Enter into the ipso object-->read_analog_init function\n");
   return 0;
 }
+
+static int
+ldr_name(lwm2m_context_t *ctx, uint8_t *outbuf, size_t outsize)
+{
+	char s[10]="ldr";
+ return ctx->writer->write_string(ctx, outbuf, outsize,
+                                         s ,4);
+
+		
+
+
+
+
+}
 /*---------------------------------------------------------------------------*/
 LWM2M_RESOURCES(ldr_resources,
                 /* ldr Input (Current) */
                 LWM2M_RESOURCE_CALLBACK(5600, {ldr_input, NULL, NULL }),
                 /* Sensor Type */
-                LWM2M_RESOURCE_STRING(5751, "LDR"),
+                LWM2M_RESOURCE_CALLBACK(5751, {ldr_name,NULL,NULL}),
 		/* Sensor Application Type */
 		LWM2M_RESOURCE_STRING(5750, "Ambient Light"),
                 /* Min Range Value */

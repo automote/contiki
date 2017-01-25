@@ -45,6 +45,7 @@
 #include "lwm2m-device.h"
 #include "lwm2m-engine.h"
 
+#include "dev/watchdog.h"
 #define DEBUG 0
 #if DEBUG
 #include <stdio.h>
@@ -82,22 +83,32 @@ set_lwtime(lwm2m_context_t *ctx, const uint8_t *inbuf, size_t insize,
   return len;
 }
 /*---------------------------------------------------------------------------*/
-#ifdef PLATFORM_REBOOT
+//#ifdef PLATFORM_REBOOT
 static struct ctimer reboot_timer;
 static void
 do_the_reboot(void *ptr)
 {
-  PLATFORM_REBOOT();
+ // PLATFORM_REBOOT();
+   watchdog_reboot();
 }
+
+
+/*void do_reboot(void)
+{
+   watchdog_reboot();
+}*/
 static int
 reboot(lwm2m_context_t *ctx, const uint8_t *arg, size_t argsize,
        uint8_t *outbuf, size_t outsize)
 {
-  PRINTF("Device will reboot!\n");
+  //PRINTF("Device will reboot!\n");
+//  printf("Device will reboot!\n");
+//	watchdog_reboot();
+	
   ctimer_set(&reboot_timer, CLOCK_SECOND / 2, do_the_reboot, NULL);
   return 0;
 }
-#endif /* PLATFORM_REBOOT */
+//#endif /* PLATFORM_REBOOT */
 /*---------------------------------------------------------------------------*/
 #ifdef PLATFORM_FACTORY_DEFAULT
 static int
@@ -126,9 +137,9 @@ LWM2M_RESOURCES(device_resources,
 #ifdef LWM2M_DEVICE_FIRMWARE_VERSION
                 LWM2M_RESOURCE_STRING(3, LWM2M_DEVICE_FIRMWARE_VERSION),
 #endif /* LWM2M_DEVICE_FIRMWARE_VERSION */
-#ifdef PLATFORM_REBOOT
-                LWM2M_RESOURCE_CALLBACK(4, { NULL, NULL, reboot }),
-#endif /* PLATFORM_REBOOT */
+//#ifdef PLATFORM_REBOOT
+                LWM2M_RESOURCE_CALLBACK(4, { NULL, NULL, reboot}),
+//#endif /* PLATFORM_REBOOT */
 #ifdef PLATFORM_FACTORY_DEFAULT
                 LWM2M_RESOURCE_CALLBACK(5, { NULL, NULL, factory_reset }),
 #endif /* PLATFORM_FACTORY_DEFAULT */

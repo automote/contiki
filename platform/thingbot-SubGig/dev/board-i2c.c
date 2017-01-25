@@ -43,6 +43,7 @@
 
 #include <string.h>
 #include <stdbool.h>
+
 /*---------------------------------------------------------------------------*/
 #define NO_INTERFACE 0xFF
 /*---------------------------------------------------------------------------*/
@@ -154,6 +155,7 @@ board_i2c_write(uint8_t *data, uint8_t len)
     if(i < len - 1) {
       /* Clear START */
       ti_lib_i2c_master_control(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_CONT);
+      // Waiting till master is free
       while(ti_lib_i2c_master_busy(I2C0_BASE));
       success = i2c_status();
     }
@@ -172,6 +174,7 @@ board_i2c_write(uint8_t *data, uint8_t len)
 }
 /*---------------------------------------------------------------------------*/
 bool
+
 board_i2c_write_single(uint8_t data)
 {
   /* Write slave address */
@@ -195,9 +198,6 @@ board_i2c_read(uint8_t *data, uint8_t len)
 {
   uint8_t i;
   bool success;
-	printf("Entering into the board _i2c_read function..\n");
-		*data=50;
-		return success;
 
   /* Set slave address */
   ti_lib_i2c_master_slave_addr_set(I2C0_BASE, slave_addr, true);
@@ -314,19 +314,15 @@ board_i2c_select(uint8_t new_interface, uint8_t address)
       ti_lib_ioc_io_port_pull_set(BOARD_IOID_SDA, IOC_NO_IOPULL);
       ti_lib_ioc_io_port_pull_set(BOARD_IOID_SCL, IOC_NO_IOPULL);
       ti_lib_ioc_pin_type_i2c(I2C0_BASE, BOARD_IOID_SDA, BOARD_IOID_SCL);
-   //   ti_lib_ioc_pin_type_gpio_input(BOARD_IOID_SDA_HP);
-     // ti_lib_ioc_pin_type_gpio_input(BOARD_IOID_SCL_HP);
-    } /*else if(interface == BOARD_I2C_INTERFACE_1) {
-      ti_lib_ioc_io_port_pull_set(BOARD_IOID_SDA_HP, IOC_NO_IOPULL);
-      ti_lib_ioc_io_port_pull_set(BOARD_IOID_SCL_HP, IOC_NO_IOPULL);
-      ti_lib_ioc_pin_type_i2c(I2C0_BASE, BOARD_IOID_SDA_HP, BOARD_IOID_SCL_HP);
-      ti_lib_ioc_pin_type_gpio_input(BOARD_IOID_SDA);
-      ti_lib_ioc_pin_type_gpio_input(BOARD_IOID_SCL);
-    }*/
+      // Check why there is compile error here
+      //ti_lib_ioc_pin_type_gpio_input(BOARD_IOID_SDA_HP);
+      //ti_lib_ioc_pin_type_gpio_input(BOARD_IOID_SCL_HP);
+    } 
 
     /* Enable and initialize the I2C master module */
     ti_lib_i2c_master_init_exp_clk(I2C0_BASE, ti_lib_sys_ctrl_clock_get(),
-                                   true);
+                                   false);									// true is 400000 false 100000
+                                    
   }
 }
 /*---------------------------------------------------------------------------*/

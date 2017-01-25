@@ -44,10 +44,12 @@
 // For adc and relay
 
 #include "lib/sensors.h"
+#include "dev/psoc.h"
+#include "dev/psoc-int.h"
 //#include "dev/soc-adc.h"
 //#include "adc-zoul.h"
 //#include "adc-sensor.h"
-#include "dev/LTR303.h"
+//#include "dev/LTR303.h"
 
 //#include "dev/relay.h"
 uint8_t gain;     // Gain setting, values = 0-7 
@@ -71,10 +73,13 @@ uint8_t measurementRate;  // Interval between DATA_REGISTERS update
 #define LWM2M_SERVER_ADDRESS "fd00::1"
 #endif
 
+#define MAX_3311_PSOC_RESOURCE 6 //change according to how many instance u want of this particuar resources
+
 static struct ctimer periodic_timer;
 extern const struct ipso_objects_rly_actuator IPSO_RELAY_CONTROL;
 //extern const struct ipso_objects_sensor IPSO_LDR;
 extern const struct ipso_objects_sensor IPSO_3202;
+extern const struct ipso_objects_actuator IPSO_light_control;
 
 PROCESS(example_ipso_objects, "IPSO object example");
 AUTOSTART_PROCESSES(&example_ipso_objects);
@@ -131,12 +136,12 @@ PROCESS_THREAD(example_ipso_objects, ev, data)
   
   //SENSORS_ACTIVATE(relay); 
 	uint8_t ID,time;
-	LTR303_begin();
-	LTR303_getPartID(&ID);
-	gain=0;
-	LTR303_setControl(gain,false,false);
-	LTR303_setMeasurementRate(time,3);
-		LTR303_setPowerUp();
+//	LTR303_begin();
+//	LTR303_getPartID(&ID);
+//	gain=0;
+//	LTR303_setControl(gain,false,false);
+//	LTR303_setMeasurementRate(time,3);
+//		LTR303_setPowerUp();
 	
 	
 
@@ -154,7 +159,7 @@ PROCESS_THREAD(example_ipso_objects, ev, data)
 
   /* Register default IPSO objects */
   ipso_objects_init();
-
+  psoc_int_pin.configure(SENSORS_HW_INIT, 1);
 
   setup_lwm2m_servers();
  ctimer_set(&periodic_timer, CLOCK_SECOND * 60, handle_periodic_timer, NULL);

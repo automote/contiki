@@ -73,8 +73,8 @@ read_value(int32_t *value)
 
 	uint8_t data0,data1;
 
-  if( LTR303_getData(&data0,&data1))
-	printf("Data0=%d\n",data0);
+//  if( LTR303_getData(&data0,&data1))
+//	printf("Data0=%d\n",data0);
 	//printf("Error.........\n");
 
   	

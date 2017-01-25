@@ -44,6 +44,7 @@
 #define RPL_CONF_MOP RPL_MOP_NON_STORING /* Mode of operation*/
 #endif /* WITH_NON_STORING */
 
+#define IEEE802154_CONF_PANID            0XABCE
 #ifndef UIP_FALLBACK_INTERFACE
 #define UIP_FALLBACK_INTERFACE rpl_interface
 #endif
@@ -51,6 +52,7 @@
 #ifndef QUEUEBUF_CONF_NUM
 #define QUEUEBUF_CONF_NUM          4
 #endif
+//#define IEEE802154_CONF_PANID            0x1234
 
 /*#ifndef UIP_CONF_BUFFER_SIZE
 #define UIP_CONF_BUFFER_SIZE    140
@@ -80,3 +82,22 @@
 
 #endif*/ /* PROJECT_CONF_H_ */
 /*==================================*/
+#undef  NETSTACK_CONF_RADIO
+#define NETSTACK_CONF_RADIO                                 cc1200_driver
+#define CC1200_CONF_RF_CFG                 cc1200_802154g_863_870_fsk_50kbps
+#define ANTENNA_SW_SELECT_DEF_CONF              ANTENNA_SW_SELECT_SUBGHZ
+#define CC1200_CONF_USE_GPIO2                               0
+#define CC1200_CONF_USE_RX_WATCHDOG                         0
+
+#define NULLRDC_CONF_ACK_WAIT_TIME                          (RTIMER_SECOND / 200)
+#define NULLRDC_CONF_AFTER_ACK_DETECTED_WAIT_TIME      (RTIMER_SECOND / 1500)
+#define NULLRDC_CONF_802154_AUTOACK                         1
+#define NULLRDC_CONF_802154_AUTOACK_HW                      1
+#define NULLRDC_CONF_SEND_802154_ACK                        0
+#define CONTIKIMAC_CONF_CCA_CHECK_TIME              (RTIMER_ARCH_SECOND / 800)
+#define CONTIKIMAC_CONF_CCA_SLEEP_TIME                (RTIMER_ARCH_SECOND / 120)
+#define CONTIKIMAC_CONF_LISTEN_TIME_AFTER_PACKET_DETECTED  (RTIMER_ARCH_SECOND / 8)
+#define CONTIKIMAC_CONF_AFTER_ACK_DETECTED_WAIT_TIME    (RTIMER_SECOND / 300)
+#define CONTIKIMAC_CONF_INTER_PACKET_INTERVAL               (RTIMER_SECOND / 200)
+
+

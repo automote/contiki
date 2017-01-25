@@ -76,14 +76,41 @@ struct ipso_objects_actuator {
    * \return      Zero if the actuator is off and non-zero otherwise.
    */
   int  (* is_on)(void);
+  int  (* is_on_0)(void);
+  int  (* is_on_1)(void);
+  int  (* is_on_2)(void);
+  int  (* is_on_3)(void);
+  int  (* is_on_4)(void);
+  int  (* is_on_5)(void);
+  int  (* is_on_6)(void);
+  int  (* is_on_7)(void);
+  int  (* is_on_8)(void);
+  int  (* is_on_9)(void);
+  int  (* is_on_10)(void);
+  int  (* is_on_11)(void);
+  int  (* is_on_12)(void);
 
   /**
    * \brief       Set the actuator to on or off.
    *
    * \param onoroff Zero to set the actuator to off and non-zero otherwise.
-   * \return      Zero if ok and a non-zero error code otherwise.
+   * \ieturn      Zero if ok and a non-zero error code otherwise.
    */
   int  (* set_on)(int onoroff);
+  int  (* set_on_0)(int onoroff);
+  int  (* set_on_1)(int onoroff);
+  int  (* set_on_2)(int onoroff);
+  int  (* set_on_3)(int onoroff);
+  int  (* set_on_4)(int onoroff);
+  int  (* set_on_5)(int onoroff);
+  int  (* set_on_6)(int onoroff);
+  int  (* set_on_7)(int onoroff);
+  int  (* set_on_8)(int onoroff);
+  int  (* set_on_9)(int onoroff);
+
+  int  (* set_on_10)(int onoroff);
+  int  (* set_on_11)(int onoroff);
+  int  (* set_on_12)(int onoroff);
 
   /**
    * \brief       Set the actuator to on or off.
@@ -91,15 +118,35 @@ struct ipso_objects_actuator {
    * \param onoroff Zero to set the actuator to off and non-zero otherwise.
    * \return      Zero if ok and a non-zero error code otherwise.
    */
-  int  (* get_dim_level)(void);
+  int  (* get_dim_level_0)(void);
 
+  int  (* get_dim_level_1)(void);
+  int  (* get_dim_level_2)(void);
+  int  (* get_dim_level_3)(void);
+  int  (* get_dim_level_4)(void);
+  int  (* get_dim_level_5)(void);
+  int  (* get_dim_level_6)(void);
+  int  (* get_dim_level_7)(void);
+  int  (* get_dim_level_8)(void);
+  int  (* get_dim_level_9)(void);
+  int  (* get_dim_level_10)(void);
   /**
    * \brief       Set the dim level of the actuator.
    *
    * \param level The dim level between 0% and 100%.
    * \return      Zero if ok and a non-zero error code otherwise.
    */
-  int  (* set_dim_level)(int level);
+  int  (* set_dim_level_0)(int level);
+  int  (* set_dim_level_1)(int level);
+  int  (* set_dim_level_2)(int level);
+  int  (* set_dim_level_3)(int level);
+  int  (* set_dim_level_4)(int level);
+  int  (* set_dim_level_5)(int level);
+  int  (* set_dim_level_6)(int level);
+  int  (* set_dim_level_7)(int level);
+  int  (* set_dim_level_8)(int level);
+  int  (* set_dim_level_9)(int level);
+  int  (* set_dim_level_10)(int level);
 };
 
 struct ipso_objects_sensor {

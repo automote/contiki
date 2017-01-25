@@ -95,7 +95,7 @@ LWM2M_RESOURCES(relay_control_resources,
                 );
 LWM2M_INSTANCES(relay_control_instances,
 		LWM2M_INSTANCE(0, relay_control_resources));
-LWM2M_OBJECT(relay_control, 3311, relay_control_instances);
+LWM2M_OBJECT(relay_control, 3312, relay_control_instances);
 /*---------------------------------------------------------------------------*/
 void
 ipso_relay_control_init(void)
