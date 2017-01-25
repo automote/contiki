@@ -41,7 +41,6 @@
 #include "sys/timer.h"
 
 #include"board-i2c.h"
-
 #include "ti-lib.h"
 
 #include <stdint.h>
@@ -57,10 +56,11 @@
                                  IOC_HYST_DISABLE | IOC_BOTH_EDGES    | \
                                  IOC_INT_ENABLE   | IOC_IOMODE_NORMAL | \
                                  IOC_NO_WAKE_UP   | IOC_INPUT_ENABLE)
-                                 
+//IOC_IOPULL_UP			Internal Pullup
+//IOC_INT_ENABLE        Intterupt Enable
+                                  
 static struct timer debouncetimer;
 uint8_t int_flag = 0;
-
 /*---------------------------------------------------------------------------*/
 /**
  * \brief Handler for PSoC interrupts

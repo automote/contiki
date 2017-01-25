@@ -56,8 +56,6 @@
 #define BOARD_H_
 /*---------------------------------------------------------------------------*/
 #include "ioc.h"
-
-
 /*---------------------------------------------------------------------------*/
 /**
  * \name LED configurations
@@ -76,9 +74,7 @@
 #define LEDS_YELLOW    2 /**< LED2 (Yellow) */
 #define LEDS_GREEN     4 /**< LED3 (Green)  */
 #define LEDS_ORANGE    8 /**< LED4 (Orange) */
-
 #define LEDS_CONF_ALL 15
-
 /* Notify various examples that we have LEDs */
 #define PLATFORM_HAS_LEDS        1
 /** @} */
@@ -161,7 +157,6 @@
 	PSoC int pin
 */
 #define BOARD_IOID_PSOC_INT     IOID_10	
-
 //#define BOARD_IOID_SDA_HP         IOID_8 /**< Interface 1 SDA: MPU */
 //#define BOARD_IOID_SCL_HP         IOID_9 /**< Interface 1 SCL: MPU */
 
