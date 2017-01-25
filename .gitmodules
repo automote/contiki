@@ -24,6 +24,6 @@
 [submodule "cpu/cc1310/lib/cc26xxware"]
 	path = cpu/cc1310/lib/cc26xxware
 	url = https://github.com/contiki-os/cc26xxware.git
-#[submodule "cpu/cc2650/lib/cc13xxware"]
-#	path = cpu/cc2650/lib/cc13xxware
-#	url = https://github.com/contiki-os/cc13xxware.git
+[submodule "cpu/cc2650/lib/cc13xxware"]
+	path = cpu/cc2650/lib/cc13xxware
+	url = https://github.com/contiki-os/cc13xxware.git
