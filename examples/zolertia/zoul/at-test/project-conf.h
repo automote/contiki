@@ -29,7 +29,7 @@
  */
 /*---------------------------------------------------------------------------*/
 /**
- * \addtogroup zoul-examples
+ * \addtogroup remote-examples
  * @{
  *
  * \defgroup zoul-AT-master-test
@@ -63,8 +63,5 @@
 #define NETSTACK_CONF_RDC     nullrdc_driver
 
 #endif /* PROJECT_CONF_H_ */
-/*---------------------------------------------------------------------------*/
-/**
- * @}
- * @}
- */
+
+/** @} */

@@ -34,8 +34,11 @@
 #define QUEUEBUF_CONF_NUM          4
 
 #undef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE    140
+//#define UIP_CONF_BUFFER_SIZE    140
+#define UIP_CONF_BUFFER_SIZE    1280
 
+
+#define RF_CORE_CONF_CHANNEL    25
 #undef UIP_CONF_ROUTER
 #define UIP_CONF_ROUTER                 0
 

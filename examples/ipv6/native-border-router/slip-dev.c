@@ -510,9 +510,15 @@ slip_init(void)
     }
 
   } else {
+#ifdef PLATFORM_HAS_CC13xx
+    static const char *siodevs[] = {
+      "ttyUSB1", "cuaU0", "ucom0" /* linux, fbsd6, fbsd5 */
+    };
+#else
     static const char *siodevs[] = {
       "ttyUSB0", "cuaU0", "ucom0" /* linux, fbsd6, fbsd5 */
     };
+#endif
     int i;
     for(i = 0; i < 3; i++) {
       slip_config_siodev = siodevs[i];

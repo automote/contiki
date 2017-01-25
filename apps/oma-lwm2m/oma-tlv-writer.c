@@ -64,6 +64,7 @@ static size_t
 write_float32fix_tlv(const lwm2m_context_t *ctx, uint8_t *outbuf,
                      size_t outlen, int32_t value, int bits)
 {
+	printf("entering into the write_float32fix_tlv function...\n");
   return oma_tlv_write_float32(ctx->resource_id, value, bits, outbuf, outlen);
 }
 /*---------------------------------------------------------------------------*/

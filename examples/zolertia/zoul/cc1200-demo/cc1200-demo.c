@@ -35,12 +35,11 @@
  * @{
  *
  * \file
- *         Test file for the CC1200 demo
+ *  Test file for the CC1200 demo
  *
  * \author
  *         Antonio Lignan <alinan@zolertia.com>
  */
-/*---------------------------------------------------------------------------*/
 #include "contiki.h"
 #include "cpu.h"
 #include "sys/etimer.h"
@@ -49,6 +48,8 @@
 #include "dev/serial-line.h"
 #include "dev/sys-ctrl.h"
 #include "net/rime/broadcast.h"
+#include "net/rime/rime.h"
+#include "random.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -60,14 +61,17 @@
 static struct etimer et;
 static uint16_t counter;
 /*---------------------------------------------------------------------------*/
-static void
+	static void
 broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
 {
-  printf("*** Received %u bytes from %u:%u: '0x%04u' ", packetbuf_datalen(),
-         from->u8[0], from->u8[1], *(uint16_t *)packetbuf_dataptr());
-  printf("%d - %u\n", (int8_t)packetbuf_attr(PACKETBUF_ATTR_RSSI),
-         packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY));
-  leds_toggle(LEDS_GREEN);
+	printf("..............\n");
+ printf("broadcast message received from %d.%d: '%s'\n",
+         from->u8[0], from->u8[1], (char *)packetbuf_dataptr());
+	//printf("*** Received %u bytes from %u:%u: '0x%04u' ", packetbuf_datalen(),
+	//		from->u8[0], from->u8[1], *(uint16_t *)packetbuf_dataptr());
+	//printf("%d - %u\n", (int8_t)packetbuf_attr(PACKETBUF_ATTR_RSSI),
+	//		packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY));
+	leds_toggle(LEDS_GREEN);
 }
 /*---------------------------------------------------------------------------*/
 static const struct broadcast_callbacks bc_rx = { broadcast_recv };
@@ -78,26 +82,34 @@ AUTOSTART_PROCESSES(&cc1200_demo_process);
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(cc1200_demo_process, ev, data)
 {
-  PROCESS_EXITHANDLER(broadcast_close(&bc))
-  PROCESS_BEGIN();
+	PROCESS_EXITHANDLER(broadcast_close(&bc))
+		PROCESS_BEGIN();
 
-  broadcast_open(&bc, BROADCAST_CHANNEL, &bc_rx);
+	broadcast_open(&bc, BROADCAST_CHANNEL, &bc_rx);
 
-  etimer_set(&et, LOOP_INTERVAL);
+	etimer_set(&et, LOOP_INTERVAL);
 
-  while(1) {
-    PROCESS_YIELD();
-    if(ev == PROCESS_EVENT_TIMER) {
-      printf("Broadcast --> %u\n", counter);
-      leds_toggle(LEDS_RED);
-      packetbuf_copyfrom(&counter, sizeof(counter));
-      broadcast_send(&bc);
-      counter++;
-      etimer_set(&et, LOOP_INTERVAL);
-    }
-  }
+	while(1) {
+		/*  PROCESS_YIELD();
+		    if(ev == PROCESS_EVENT_TIMER) {
+		    printf("Broadcast --> %u\n", counter);
+		    leds_toggle(LEDS_RED);
+		    packetbuf_copyfrom(&counter, sizeof(counter));
+		    broadcast_send(&bc);
+		    counter++;
+		    etimer_set(&et, LOOP_INTERVAL);
+		 */
+		/* Delay 2-4 seconds */
+		etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
 
-  PROCESS_END();
+		PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+		packetbuf_copyfrom("FROM NODE 2", 12);
+		broadcast_send(&bc);
+		printf("broadcast message sent\n");  }
+	
+
+	PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
 /**
